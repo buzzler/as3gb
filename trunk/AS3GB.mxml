@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()">
+<mx:Script>
+	<![CDATA[
+	import com.mobswing.gb.view.Javaboy;
+
+	[Embed(source="roms/game.gb", mimeType="application/octet-stream")]
+	private var Game:Class;
+
+	private	function init():void
+	{
+		var j:Javaboy = new Javaboy();
+		this.uic.addChild(j);
+		j.start(new Game(), 'game.gb');
+	}
+	]]>
+</mx:Script>
+<mx:UIComponent width="160" height="144" horizontalCenter="0" verticalCenter="0" id="uic"/>
+</mx:Application>
