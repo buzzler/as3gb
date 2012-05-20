@@ -105,7 +105,7 @@ package
 		public	var highY	:uint;
 		public	var lowY	:uint;
 		//Sound variables:
-		public	var audioHandle					:XAudioServer;
+		public	var audioHandle					:APU;
 		public	var numSamplesTotal				:uint;
 		public	var	sampleSize					:Number;
 		public	var dutyLookup					:Vector.<Number>;
@@ -5596,7 +5596,7 @@ package
 				this.soundChannelsAllocated = (!settings.forceMonoSound) ? 2 : 1;
 				this.soundFrameShifter = this.soundChannelsAllocated - 1;
 				try {
-					this.audioHandle = new XAudioServer(this.soundChannelsAllocated, settings.sampleRate, 0, Math.max(this.sampleSize * settings.maxAudioIteration, 8192) << this.soundFrameShifter, null, settings.volume);
+					this.audioHandle = new APU(this.soundChannelsAllocated, settings.sampleRate, 0, Math.max(this.sampleSize * settings.maxAudioIteration, 8192) << this.soundFrameShifter, settings.volume);
 					trace("...Audio Channels: " + this.soundChannelsAllocated.toString(), 0);
 					trace("...Sample Rate: " + settings.sampleRate.toString(), 0);
 					this.initAudioBuffer();
