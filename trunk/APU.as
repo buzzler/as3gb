@@ -1,6 +1,7 @@
 package
 {
 	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	import flash.events.SampleDataEvent;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
@@ -24,13 +25,9 @@ package
 		public	var resampleBufferStart:int;
 		public	var resampleBufferEnd:int;
 		public	var resampleBufferSize:uint;
-		public	var samplesAlreadyWritten:int;
 
 		public	var channel:SoundChannel;
 		public	var sound:Sound = null;
-		public	var sampleFramesFound:int = 0;
-		public	var channel1Buffer:Vector.<Number> = new Vector.<Number>(4096, true);
-		public	var channel2Buffer:Vector.<Number> = new Vector.<Number>(4096, true);
 		
 		public function APU(channels:int, sampleRate:int, minBufferSize:int, maxBufferSize:int, volume:Number)
 		{
@@ -59,14 +56,14 @@ package
 		
 		public	function writeAudioNoCallback(buffer:Vector.<Number>):void
 		{
-			if (this.checkFlashInit()) {
+			if (this.checkInit()) {
 				this.callbackBasedWriteAudioNoCallback(buffer);
 			}
 		}
 		
 		public	function remainingBuffer():Number
 		{
-			if (this.checkFlashInit()) {
+			if (this.checkInit()) {
 				return (((resampledSamplesLeft() * resampleControl.ratioWeight) >> (this.channels - 1)) << (this.channels - 1)) + bufferSize;
 			}
 			return 0;
@@ -76,54 +73,58 @@ package
 		{
 			if (value >= 0 && value <= 1) {
 				volume = value;
-				this.checkFlashInit();
+				this.checkInit();
 			}
 		}
 
-		public	function checkFlashInit():Boolean
+		public	function checkInit():Boolean
 		{
 			if (this.initialized!=true) {
-				this.initialized = true;
-				initialize();
+				if (sound!=null) {
+					sound.removeEventListener(SampleDataEvent.SAMPLE_DATA, soundCallback);
+					if (channel!=null) {
+						channel.stop();
+					}
+				}
+				sound = new Sound();
+				sound.addEventListener(SampleDataEvent.SAMPLE_DATA, soundCallback);
+				channel = sound.play();
+				
 				resetCallbackAPIAudioBuffer(44100, samplesPerCallback);
+				this.initialized = true;
 			}
 			return this.initialized;
 		}
 		
-		public	function audioOutputFlashEvent():String
+		public	function generateStereo(event:SampleDataEvent):void
 		{
-			resampleRefill();
-			if (outputConvert != null)
-				return outputConvert();
-			return "";
-		}
-		
-		public	function generateFlashStereoString():String
-		{
-			var copyBinaryStringLeft:String = "";
-			var copyBinaryStringRight:String = "";
 			for (var index:int = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
-				copyBinaryStringLeft += String.fromCharCode(((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 0x3FFF) | 0) + 0x3000);
-				copyBinaryStringRight += String.fromCharCode(((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 0x3FFF) | 0) + 0x3000);
+				event.data.writeFloat(resampled[resampleBufferStart++]);
+				event.data.writeFloat(resampled[resampleBufferStart++]);
 				if (resampleBufferStart == resampleBufferSize) {
 					resampleBufferStart = 0;
 				}
 			}
-			return copyBinaryStringLeft + copyBinaryStringRight;
+			while (++index < 2048) {
+				event.data.writeFloat(0);
+				event.data.writeFloat(0);
+			}
 		}
 		
-		public	function generateFlashMonoString():String
+		public	function generateMono(event:SampleDataEvent):void
 		{
-			var copyBinaryString:String = "";
 			for (var index:int = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
-				copyBinaryString += String.fromCharCode(((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 0x3FFF) | 0) + 0x3000);
+				event.data.writeFloat(resampled[resampleBufferStart++]);
 				if (resampleBufferStart == resampleBufferSize) {
 					resampleBufferStart = 0;
 				}
 			}
-			return copyBinaryString;
+			while (++index < 2048) {
+				event.data.writeFloat(0);
+				event.data.writeFloat(0);
+			}
 		}
-		
+
 		public	function resampleRefill():void
 		{
 			if (bufferSize > 0) {
@@ -177,86 +178,29 @@ package
 			if (mono) {
 				resampled = new Vector.<Number>(resampleBufferSize);
 				resampleControl = new Resampler(sampleRate, APISampleRate, 1, resampleBufferSize, true);
-				outputConvert = generateFlashMonoString;
+				outputConvert = generateMono;
 			}
 			else {
 				resampleBufferSize  <<= 1;
 				resampled = new Vector.<Number>(resampleBufferSize);
 				resampleControl = new Resampler(sampleRate, APISampleRate, 2, resampleBufferSize, true);
-				outputConvert = generateFlashStereoString;
+				outputConvert = generateStereo;
 			}
 		}
-		
-		public	function initialize():void
-		{
-			if (sound!=null) {
-				sound.removeEventListener(SampleDataEvent.SAMPLE_DATA, soundCallback);
-				if (channel!=null) {
-					channel.stop();
-				}
-			}
-			sound = new Sound();
-			sound.addEventListener(SampleDataEvent.SAMPLE_DATA, soundCallback);
-			channel = sound.play();
-		}
-		
-		public	function requestSamples():Boolean {
-			var buffer:String = audioOutputFlashEvent();
-			if (buffer !== null) {
-				if ((buffer.length % this.channels) == 0) {
-					var index:int = 0;
-					var channel1Sample:Number = 0;
-					if (mono!=true) {
-						var channel2Sample:Number = 0;
-						for (this.sampleFramesFound = Math.min(buffer.length >> 1, 4096); index < this.sampleFramesFound; ++index) {
-							channel1Sample = buffer.charCodeAt(index);
-							channel2Sample = buffer.charCodeAt(index + this.sampleFramesFound);
-							if (channel1Sample >= 0x3000 && channel1Sample < 0xB000 && channel2Sample >= 0x3000 && channel2Sample < 0xB000) {
-								this.channel1Buffer[index] = this.volume * (((channel1Sample - 0x3000) / 0x3FFF) - 1);
-								this.channel2Buffer[index] = this.volume * (((channel2Sample - 0x3000) / 0x3FFF) - 1);
-							}
-							else {
-								return false;
-							}
-						}
-					}
-					else {
-						for (this.sampleFramesFound = Math.min(buffer.length, 4096); index < this.sampleFramesFound; ++index) {
-							channel1Sample = buffer.charCodeAt(index);
-							if (channel1Sample >= 0x3000 && channel1Sample < 0xB000) {
-								this.channel1Buffer[index] = this.volume * (((channel1Sample - 0x3000) / 0x3FFF) - 1);
-							}
-							else {
-								return false;
-							}
-						}
-					}
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		private	function soundCallback(event:SampleDataEvent):void
-		{
+
+		public	function soundCallback(event:SampleDataEvent):void {
 			var index:int = 0;
-			if (this.requestSamples()) {
-				if (mono!=true) {
-					while (index < this.sampleFramesFound) {
-						event.data.writeFloat(this.channel1Buffer[index]);
-						event.data.writeFloat(this.channel2Buffer[index++]);
-					}
+
+			resampleRefill();
+			if (outputConvert == null) {
+				while (++index <= 2048) {
+					event.data.writeFloat(0);
+					event.data.writeFloat(0);
 				}
-				else {
-					while (index < this.sampleFramesFound) {
-						event.data.writeFloat(this.channel1Buffer[index]);
-						event.data.writeFloat(this.channel1Buffer[index++]);
-					}
-				}
+				return;
 			}
-			while (++index <= 2048) {
-				event.data.writeFloat(0);
-				event.data.writeFloat(0);
+			else {
+				outputConvert(event);
 			}
 		}
 	}

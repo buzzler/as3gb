@@ -15,7 +15,7 @@ package
 	public class as3gb extends Sprite
 	{
 //		[Embed(source="../rom/Kirby.gb", mimeType="application/octet-stream")]
-		[Embed(source="../rom/eur-zosm.gbc", mimeType="application/octet-stream")]
+//		[Embed(source="../rom/eur-zosm.gbc", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/MGS.gbc", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/FFL3.gb", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/DQ3K.gbc", mimeType="application/octet-stream")]
@@ -25,7 +25,7 @@ package
 //		[Embed(source="../rom/CVR.gb", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/DT.gb", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/GG.gbc", mimeType="application/octet-stream")]
-//		[Embed(source="../rom/Gradius.gb", mimeType="application/octet-stream")]
+		[Embed(source="../rom/Gradius.gb", mimeType="application/octet-stream")]
 //		[Embed(source="../rom/Tetris.gb", mimeType="application/octet-stream")]
 		private	var ROM:Class;
 		
@@ -39,7 +39,7 @@ package
 			
 			addChild(gbio);
 			gbio.start(rom);
-			
+
 			/**
 			 * button for save SRAM
 			 */
