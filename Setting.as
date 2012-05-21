@@ -16,7 +16,6 @@ package
 		public	var select				:uint;
 		public	var start				:uint;
 		public	var colorizeGameBoy		:Boolean;	//Colorize GB mode?
-		public	var disallowTypedArray	:Boolean;	//Disallow typed arrays?
 		public	var emulatorInterval	:Number;	//Interval for the emulator loop.
 		public	var minAudioIteration	:Number;	//Audio buffer minimum span amount over x interpreter iterations.
 		public	var maxAudioIteration	:Number;	//Audio buffer maximum span amount over x interpreter iterations.
@@ -41,7 +40,6 @@ package
 			this.select				= Keyboard.SHIFT;
 			this.start				= Keyboard.ENTER;
 			this.colorizeGameBoy	= false;
-			this.disallowTypedArray	= false;
 			this.emulatorInterval	= 10;
 			this.minAudioIteration	= 10;
 			this.maxAudioIteration	= 25;

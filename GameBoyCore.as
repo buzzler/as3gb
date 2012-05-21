@@ -362,7 +362,7 @@ package
 			this.gbcRamBank				= 1;
 			this.gbcRamBankPosition		= -0xD000;
 			this.gbcRamBankPositionECHO	= -0xF000;
-			this.RAMBanks				= Utils.toVector([0, 1, 2, 4, 16], "uint");
+			this.RAMBanks				= toVector([0, 1, 2, 4, 16], "uint");
 			this.ROMBank1offs			= 0;
 			this.currentROMBank			= 0;
 			this.cartridgeType			= 0;
@@ -379,7 +379,7 @@ package
 			this.mode0TriggerSTAT		= false;
 			this.LCDisOn				= false;
 			this.LINECONTROL			= new Vector.<Function>();
-			this.DISPLAYOFFCONTROL		= Utils.toVector([function ():void {}], "function");
+			this.DISPLAYOFFCONTROL		= toVector([function ():void {}], "function");
 			this.LCDCONTROL				= null;
 			this.initializeLCDController();
 			this.RTCisLatched	= false;
@@ -401,7 +401,7 @@ package
 			this.audioHandle			= null;
 			this.numSamplesTotal		= 0;
 			this.sampleSize				= 0;
-			this.dutyLookup				= Utils.toVector([0.125, 0.25, 0.5, 0.75], "number");
+			this.dutyLookup				= toVector([0.125, 0.25, 0.5, 0.75], "number");
 			this.currentBuffer			= new Vector.<Number>()
 			this.bufferContainAmount	= 0;
 			this.LSFR15Table			= null;
@@ -496,7 +496,7 @@ package
 			this.BGCHRBank2						= null;
 			this.BGCHRCurrentBank				= null;
 			this.tileCache						= null;
-			this.colors							= Utils.toVector([0xEFFFDE, 0xADD794, 0x529273, 0x183442], "uint");
+			this.colors							= toVector([0xEFFFDE, 0xADD794, 0x529273, 0x183442], "uint");
 			this.OBJPalette						= null;
 			this.BGPalette						= null;
 			this.gbcOBJRawPalette				= null;
@@ -526,7 +526,7 @@ package
 			this.offscreenRGBCount				= this.onscreenWidth * this.onscreenHeight * 4;
 			this.intializeWhiteNoise();
 			
-			this.GBBOOTROM = Utils.toVector([
+			this.GBBOOTROM = toVector([
 				0x31, 0xFE, 0xFF, 0xAF, 0x21, 0xFF, 0x9F, 0x32,		0xCB, 0x7C, 0x20, 0xFB, 0x21, 0x26, 0xFF, 0x0E,
 				0x11, 0x3E, 0x80, 0x32, 0xE2, 0x0C, 0x3E, 0xF3,		0xE2, 0x32, 0x3E, 0x77, 0x77, 0x3E, 0xFC, 0xE0,
 				0x47, 0x11, 0x04, 0x01, 0x21, 0x10, 0x80, 0x1A,		0xCD, 0x95, 0x00, 0xCD, 0x96, 0x00, 0x13, 0x7B,
@@ -544,7 +544,7 @@ package
 				0x21, 0x04, 0x01, 0x11, 0xA8, 0x00, 0x1A, 0x13,		0xBE, 0x20, 0xFE, 0x23, 0x7D, 0xFE, 0x34, 0x20,
 				0xF5, 0x06, 0x19, 0x78, 0x86, 0x23, 0x05, 0x20,		0xFB, 0x86, 0x20, 0xFE, 0x3E, 0x01, 0xE0, 0x50
 			],"uint");
-			this.GBCBOOTROM = Utils.toVector([
+			this.GBCBOOTROM = toVector([
 				0x31, 0xfe, 0xff, 0x3e, 0x02, 0xc3, 0x7c, 0x00, 	0xd3, 0x00, 0x98, 0xa0, 0x12, 0xd3, 0x00, 0x80, 
 				0x00, 0x40, 0x1e, 0x53, 0xd0, 0x00, 0x1f, 0x42, 	0x1c, 0x00, 0x14, 0x2a, 0x4d, 0x19, 0x8c, 0x7e, 
 				0x00, 0x7c, 0x31, 0x6e, 0x4a, 0x45, 0x52, 0x4a, 	0x00, 0x00, 0xff, 0x53, 0x1f, 0x7c, 0xff, 0x03, 
@@ -674,7 +674,7 @@ package
 				0x1f, 0x00, 0xff, 0x03, 0x40, 0x41, 0x42, 0x20, 	0x21, 0x22, 0x80, 0x81, 0x82, 0x10, 0x11, 0x12, 
 				0x12, 0xb0, 0x79, 0xb8, 0xad, 0x16, 0x17, 0x07, 	0xba, 0x05, 0x7c, 0x13, 0x00, 0x00, 0x00, 0x00
 			],"uint");
-			this.ffxxDump = Utils.toVector([
+			this.ffxxDump = toVector([
 				0x0F, 0x00, 0x7C, 0xFF, 0x00, 0x00, 0x00, 0xF8, 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01,
 				0x80, 0xBF, 0xF3, 0xFF, 0xBF, 0xFF, 0x3F, 0x00, 	0xFF, 0xBF, 0x7F, 0xFF, 0x9F, 0xFF, 0xBF, 0xFF,
 				0xFF, 0x00, 0x00, 0xBF, 0x77, 0xF3, 0xF1, 0xFF, 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -692,7 +692,7 @@ package
 				0xD0, 0x7A, 0x00, 0x9E, 0x04, 0x5F, 0x41, 0x2F, 	0x1D, 0x77, 0x36, 0x75, 0x81, 0xAA, 0x70, 0x3A,
 				0x98, 0xD1, 0x71, 0x02, 0x4D, 0x01, 0xC1, 0xFF, 	0x0D, 0x00, 0xD3, 0x05, 0xF9, 0x00, 0x0B, 0x00
 			], "uint");
-			this.OPCODE = Utils.toVector([
+			this.OPCODE = toVector([
 				//NOP
 				//#0x00:
 				function ():void {
@@ -2642,7 +2642,7 @@ package
 					programCounter = 0x38;
 				}
 			], "function");
-				this.CBOPCODE = Utils.toVector([
+				this.CBOPCODE = toVector([
 					//RLC B
 					//#0x00:
 					function ():void {
@@ -4267,7 +4267,7 @@ package
 							registerA |= 0x80;
 						}
 			], "function");
-			this.TICKTable = Utils.toVector([
+			this.TICKTable = toVector([
 				4, 12,  8,  8,  4,  4,  8,  4,     20,  8,  8, 8,  4,  4, 8,  4,
 				4, 12,  8,  8,  4,  4,  8,  4,     12,  8,  8, 8,  4,  4, 8,  4,
 				8, 12,  8,  8,  4,  4,  8,  4,      8,  8,  8, 8,  4,  4, 8,  4,
@@ -4285,7 +4285,7 @@ package
 				12, 12,  8,  4,  4, 16,  8, 16,     16,  4, 16, 4,  4,  4, 8, 16,
 				12, 12,  8,  4,  4, 16,  8, 16,     12,  8, 16, 4,  0,  4, 8, 16
 			], "uint");
-			this.SecondaryTICKTable = Utils.toVector([
+			this.SecondaryTICKTable = toVector([
 				8, 8, 8, 8, 8, 8, 16, 8,        8, 8, 8, 8, 8, 8, 16, 8,
 				8, 8, 8, 8, 8, 8, 16, 8,        8, 8, 8, 8, 8, 8, 16, 8,
 				8, 8, 8, 8, 8, 8, 16, 8,        8, 8, 8, 8, 8, 8, 16, 8,
@@ -4944,10 +4944,10 @@ package
 		
 		public	function initMemory():void
 		{
-			this.memory = this.getTypedArray(0x10000, 0, "uint8");
-			this.frameBuffer = this.getTypedArray(23040, 0xF8F8F8, "int32");
-			this.BGCHRBank1 = this.getTypedArray(0x800, 0, "uint8");
-			this.channel3PCM = this.getTypedArray(0x80, 0, "float32");
+			this.memory = this.getVector(0x10000, 0, "uint8");
+			this.frameBuffer = this.getVector(23040, 0xF8F8F8, "int32");
+			this.BGCHRBank1 = this.getVector(0x800, 0, "uint8");
+			this.channel3PCM = this.getVector(0x80, 0, "float32");
 		}
 		
 		public	function generateCacheArray(tileAmount:int):Vector.<Vector.<uint>>
@@ -4955,7 +4955,7 @@ package
 			var tileArray:Vector.<Vector.<uint>> = new Vector.<Vector.<uint>>();
 			var tileNumber:int = 0;
 			while (tileNumber < tileAmount) {
-				tileArray.push(this.getTypedArray(64, 0, "uint8"));
+				tileArray.push(this.getVector(64, 0, "uint8"));
 				tileNumber++;
 			}
 			return tileArray;
@@ -5148,7 +5148,7 @@ package
 			if (maxLength < 0x4000) {
 				throw(new Error("ROM image size too small."));
 			}
-			this.ROM = this.getTypedArray(maxLength, 0, "uint8");
+			this.ROM = this.getVector(maxLength, 0, "uint8");
 			var romIndex:int = 0;
 			if (this.usedBootROM) {
 				if (!settings.useGBBootROM) {
@@ -5520,14 +5520,14 @@ package
 //					this.MBCRam = this.toTypedArray(MBCRam, "uint8");
 				}
 				else {
-					this.MBCRam = this.getTypedArray(this.numRAMBanks * 0x2000, 0, "uint8");
+					this.MBCRam = this.getVector(this.numRAMBanks * 0x2000, 0, "uint8");
 				}
 			}
 			trace("Actual bytes of MBC RAM allocated: " + (this.numRAMBanks * 0x2000), 0);
 			this.returnFromRTCState();
 			if (this.cGBC) {
-				this.VRAM = this.getTypedArray(0x2000, 0, "uint8");
-				this.GBCMemory = this.getTypedArray(0x7000, 0, "uint8");
+				this.VRAM = this.getVector(0x2000, 0, "uint8");
+				this.GBCMemory = this.getVector(0x7000, 0, "uint8");
 			}
 			this.memoryReadJumpCompile();
 			this.memoryWriteJumpCompile();
@@ -5546,7 +5546,7 @@ package
 			this.graphicsBlit();
 			this.gb.visible = true;
 			if (this.swizzledFrame == null) {
-				this.swizzledFrame = this.getTypedArray(23040, 0xFF, "uint8");
+				this.swizzledFrame = this.getVector(23040, 0xFF, "uint8");
 			}
 			this.drewFrame = true;
 			this.requestDraw();
@@ -5629,13 +5629,13 @@ package
 			this.audioIndex = 0;
 			this.bufferContainAmount = Math.max(this.sampleSize * settings.minAudioIteration, 4096) << this.soundFrameShifter;
 			this.numSamplesTotal = this.sampleSize << this.soundFrameShifter;
-			this.currentBuffer = this.getTypedArray(this.numSamplesTotal, 0, "float32");
+			this.currentBuffer = this.getVector(this.numSamplesTotal, 0, "float32");
 		}
 		
 		public	function intializeWhiteNoise():void
 		{
 			var randomFactor:Number = 1;
-			this.LSFR15Table = this.getTypedArray(0x80000, 0, "float32");
+			this.LSFR15Table = this.getVector(0x80000, 0, "float32");
 			var LSFR:uint = 0x7FFF;
 			var LSFRShifted:uint = 0x3FFF;
 			for (var index:uint = 0; index < 0x8000; ++index) {
@@ -5658,7 +5658,7 @@ package
 				LSFRShifted = LSFR >> 1;
 				LSFR = LSFRShifted | (((LSFRShifted ^ LSFR) & 0x1) << 14);
 			}
-			this.LSFR7Table = this.getTypedArray(0x800, 0, "float32");
+			this.LSFR7Table = this.getVector(0x800, 0, "float32");
 			LSFR = 0x7F;
 			for (index = 0; index < 0x80; ++index) {
 				randomFactor = 1 - (LSFR & 1);
@@ -6567,22 +6567,22 @@ package
 		{
 			this.LCDCONTROL = (this.LCDisOn) ? this.LINECONTROL : this.DISPLAYOFFCONTROL;
 			if (this.cGBC) {
-				this.gbcOBJRawPalette = this.getTypedArray(0x40, 0, "uint8");
-				this.gbcBGRawPalette = this.getTypedArray(0x40, 0, "uint8");
-				this.gbcOBJPalette = this.getTypedArray(0x20, 0x1000000, "int32");
-				this.gbcBGPalette = this.getTypedArray(0x40, 0, "int32");
-				this.BGCHRBank2 = this.getTypedArray(0x800, 0, "uint8");
+				this.gbcOBJRawPalette = this.getVector(0x40, 0, "uint8");
+				this.gbcBGRawPalette = this.getVector(0x40, 0, "uint8");
+				this.gbcOBJPalette = this.getVector(0x20, 0x1000000, "int32");
+				this.gbcBGPalette = this.getVector(0x40, 0, "int32");
+				this.BGCHRBank2 = this.getVector(0x800, 0, "uint8");
 				this.BGCHRCurrentBank = (this.currVRAMBank > 0) ? this.BGCHRBank2 : this.BGCHRBank1;
 				this.tileCache = this.generateCacheArray(0xF80);
 			}
 			else {
-				this.gbOBJPalette = this.getTypedArray(8, 0, "int32");
-				this.gbBGPalette = this.getTypedArray(4, 0, "int32");
+				this.gbOBJPalette = this.getVector(8, 0, "int32");
+				this.gbBGPalette = this.getVector(4, 0, "int32");
 				this.BGPalette = this.gbBGPalette;
 				this.OBJPalette = this.gbOBJPalette;
 				this.tileCache = this.generateCacheArray(0x700);
-				this.sortBuffer = this.getTypedArray(0x100, 0, "uint8");
-				this.OAMAddressCache = this.getTypedArray(10, 0, "int8");
+				this.sortBuffer = this.getVector(0x100, 0, "uint8");
+				this.OAMAddressCache = this.getVector(10, 0, "int8");
 			}
 			this.renderPathBuild();
 		}
@@ -6593,23 +6593,23 @@ package
 			this.VRAM = this.GBCMemory = this.BGCHRCurrentBank = this.BGCHRBank2 = null;
 			this.tileCache.length = 0x700;
 			if (settings.colorizeGameBoy) {
-				this.gbBGColorizedPalette = this.getTypedArray(4, 0, "int32");
-				this.gbOBJColorizedPalette = this.getTypedArray(8, 0, "int32");
-				this.cachedBGPaletteConversion = this.getTypedArray(4, 0, "int32");
-				this.cachedOBJPaletteConversion = this.getTypedArray(8, 0, "int32");
+				this.gbBGColorizedPalette = this.getVector(4, 0, "int32");
+				this.gbOBJColorizedPalette = this.getVector(8, 0, "int32");
+				this.cachedBGPaletteConversion = this.getVector(4, 0, "int32");
+				this.cachedOBJPaletteConversion = this.getVector(8, 0, "int32");
 				this.BGPalette = this.gbBGColorizedPalette;
 				this.OBJPalette = this.gbOBJColorizedPalette;
 				this.gbOBJPalette = this.gbBGPalette = null;
 				this.getGBCColor();
 			}
 			else {
-				this.gbOBJPalette = this.getTypedArray(8, 0, "int32");
-				this.gbBGPalette = this.getTypedArray(4, 0, "int32");
+				this.gbOBJPalette = this.getVector(8, 0, "int32");
+				this.gbBGPalette = this.getVector(4, 0, "int32");
 				this.BGPalette = this.gbBGPalette;
 				this.OBJPalette = this.gbOBJPalette;
 			}
-			this.sortBuffer = this.getTypedArray(0x100, 0, "uint8");
-			this.OAMAddressCache = this.getTypedArray(10, 0, "int32");
+			this.sortBuffer = this.getVector(0x100, 0, "uint8");
+			this.OAMAddressCache = this.getVector(10, 0, "int32");
 			this.renderPathBuild();
 			this.memoryReadJumpCompile();
 			this.memoryWriteJumpCompile();
@@ -9632,7 +9632,7 @@ package
 			}
 		}
 		
-		public	function toTypedArray(baseArray:Vector.<uint>, memtype:String):*
+/*		public	function toTypedArray(baseArray:Vector.<uint>, memtype:String):*
 		{
 			var typedArrayTemp:*;
 			
@@ -9663,61 +9663,51 @@ package
 				trace("Could not convert an array to a typed array: " + error.message, 1);
 				return baseArray;
 			}
+		}*/
+		
+		public	function getVector(length:uint, defaultValue:*, numberType:String):*
+		{
+			var result:*;
+			switch (numberType) {
+				case "uint8":
+					result = new Vector.<uint>(length);
+					break;
+				case "int32":
+					result = new Vector.<int>(length);
+					break;
+				case "float32":
+					result = new Vector.<Number>(length);
+			}
+			
+			var i:uint = 0;
+			while (i < length) {
+				result[i++] = defaultValue;
+			}
+			return result;
 		}
 		
-		public	function fromTypedArray(baseArray:*):Array
+		public	function toVector(array:Array, type:String):*
 		{
-			try {
-				if (!baseArray || !baseArray.length) {
-					return [];
-				}
-				var arrayTemp:Array = [];
-				for (var index:uint = 0; index < baseArray.length; ++index) {
-					arrayTemp[index] = baseArray[index];
-				}
-				return arrayTemp;
+			var result:*;
+			switch (type)
+			{
+				case "uint":
+					result = new Vector.<uint>(array.length);
+					break;
+				case "number":
+					result = new Vector.<Number>(array.length);
+					break;
+				case "function":
+					result = new Vector.<Function>(array.length);
+					break;
 			}
-			catch (error:Error) {
-				trace("Conversion from a typed array failed: " + error.message, 1);
-				return baseArray;
+			var i:uint = 0;
+			var total:uint = array.length;
+			while (i<total)
+			{
+				result[i] = array[i++];
 			}
-			return baseArray;
-		}
-		
-		public	function getTypedArray(length:uint, defaultValue:*, numberType:String):*
-		{
-			var arrayHandle:*;
-			var index:uint;
-			try {
-				if (settings.disallowTypedArray) {
-					throw(new Error(""));
-				}
-				switch (numberType) {
-					case "uint8":
-						arrayHandle = new Vector.<uint>(length);
-						break;
-					case "int32":
-						arrayHandle = new Vector.<int>(length);
-						break;
-					case "float32":
-						arrayHandle = new Vector.<Number>(length);
-				}
-				if (defaultValue > 0) {
-					index = 0;
-					while (index < length) {
-						arrayHandle[index++] = defaultValue;
-					}
-				}
-			}
-			catch (error:Error) {
-				trace("Could not convert an array to a typed array: " + error.message, 1);
-				arrayHandle = [];
-				index = 0;
-				while (index < length) {
-					arrayHandle[index++] = defaultValue;
-				}
-			}
-			return arrayHandle;
+			return result;
 		}
 	}
 }
